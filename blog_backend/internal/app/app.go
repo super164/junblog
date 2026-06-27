@@ -110,7 +110,7 @@ func (a *App) initDatabase() error {
 		//&entity.User{},
 		//&entity.Article{},
 		//&entity.Tag{},
-		//&entity.Category{},
+		&entity.Category{},
 		&entity.Comment{},
 		&entity.Like{},
 	); err != nil {
