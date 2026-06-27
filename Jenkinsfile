@@ -190,8 +190,6 @@ pipeline {
             sh 'docker logs junblog-backend --tail=50 || true'
             sh 'docker logs junblog-frontend --tail=50 || true'
         }
-        always {
-            cleanWs()
-        }
+
     }
 }
