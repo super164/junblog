@@ -1,0 +1,29 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Go
+blog_backend/*.exe
+blog_backend/debug
+blog_backend/tmp/
+blog_backend/logs/
+blog_backend/uploads/
+
+# Node
+bolg_forntend/node_modules/
+bolg_forntend/dist/
+bolg_forntend/.vite/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# MinIO data
+minio_data/

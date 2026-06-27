@@ -1,0 +1,25 @@
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Go
+vendor/
+*.exe
+*.test
+*.out
+
+# Logs
+logs/
+*.log
+
+# Uploads
+uploads/
+
+# Build
+server

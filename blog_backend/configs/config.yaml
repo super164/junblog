@@ -1,0 +1,77 @@
+# 应用配置
+app:
+  name: "JunBlog"
+  version: "1.0.0"
+  mode: "debug"  # debug, release, test
+  port: ":8080"
+
+# 数据库配置
+database:
+  mysql:
+    dsn: "root:123456@tcp(127.0.0.1:3306)/junblog?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=True&loc=Local"
+    max_idle_conns: 10
+    max_open_conns: 100
+  redis:
+    host: "127.0.0.1"
+    port: 6379
+    password: ""
+    db: 0
+    pool_size: 10
+
+# JWT 配置
+jwt:
+  secret: "change_me_to_random_32_bytes_string_in_env"
+  issuer: "junblog"
+  access_expire: 15  # 分钟
+  refresh_expire: 168  # 小时
+
+# 日志配置
+log:
+  level: "debug"
+  filename: "logs/blog.log"
+  max_size: 10  # MB
+  max_backups: 5
+  max_age: 30  # 天
+  compress: true
+
+# CORS 配置
+cors:
+  enabled: true
+  allow_origins:
+    - "http://localhost:5173"
+    - "http://127.0.0.1:5173"
+    - "http://localhost:3000"
+    - "http://127.0.0.1:3000"
+  allow_methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "PATCH"
+    - "DELETE"
+    - "OPTIONS"
+  allow_headers:
+    - "Origin"
+    - "Content-Type"
+    - "Authorization"
+    - "X-Requested-With"
+  expose_headers:
+    - "Content-Length"
+  allow_credentials: true
+  max_age: 86400
+
+# MinIO 配置
+minio:
+  endpoint: "127.0.0.1:9001"
+  access_key: "admin"
+  secret_key: "12345678"
+  bucket: "junblog"
+  use_ssl: false
+  public_base_url: "http://127.0.0.1:9001/junblog"
+
+# GitHub OAuth 配置
+github:
+  client_id: "Ov23liP046j2NXRF9jYn"
+  client_secret: "1c6a7d469827ee7024690d1d316230de709a044f"
+  redirect_uri: "http://localhost:8080/api/v1/auth/github/callback"
+  # 公网地址（用于他人访问时的回调）
+  public_url: "https://enjoying-crunchy-crummy.ngrok-free.dev"

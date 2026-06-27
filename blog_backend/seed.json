@@ -1,0 +1,42 @@
+[
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/categories",
+    "body": {"name":"技术笔记","slug":"tech","description":"技术相关文章"}
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/categories",
+    "body": {"name":"生活随笔","slug":"life","description":"日常生活感悟"}
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/tags",
+    "body": {"name":"Go","slug":"golang"}
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/tags",
+    "body": {"name":"Vue","slug":"vuejs"}
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/tags",
+    "body": {"name":"MySQL","slug":"mysql"}
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/articles",
+    "body": {"title":"使用 Go + Vue 搭建前后台分离博客系统","slug":"go-vue-blog","content":"这是一篇关于使用 Go 和 Vue 3 搭建前后台分离博客系统的文章。\n\n技术栈：\n- 后端：Go + Gin + GORM + MySQL\n- 前端：Vue 3 + Vite\n\n主要功能：\n1. 文章 CRUD\n2. 分类和标签管理\n3. 评论系统\n4. 点赞收藏\n5. 后台管理","category_id":1,"tag_ids":[1,2],"status":"published"}
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/articles",
+    "body": {"title":"MySQL 索引优化实践","slug":"mysql-index","content":"数据库性能优化是后端开发中的重要环节。\n\n本文介绍几种常见的 MySQL 索引优化技巧：\n1. 合理使用联合索引\n2. 避免索引失效的写法\n3. EXPLAIN 分析查询计划","category_id":1,"tag_ids":[3],"status":"published"}
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/admin/articles",
+    "body": {"title":"写博客的初衷","slug":"why-blog","content":"开始写博客，是为了记录学习过程中的思考和总结。\n\n把知识整理成文字，不仅能加深理解，还能帮助到其他人。\n\n希望这个博客能一直坚持下去。","category_id":2,"tag_ids":[],"status":"published"}
+  }
+]

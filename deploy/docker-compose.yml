@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  # MySQL 数据库
+  mysql:
+    image: mysql:8.0
+    container_name: junblog-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: junblog
+      MYSQL_USER: junblog
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: Asia/Shanghai
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - junblog-network
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  # Redis 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: junblog-redis
+    restart: always
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - junblog-network
+    command: redis-server --appendonly yes
+
+  # Go 后端
+  backend:
+    build:
+      context: ../blog_backend
+      dockerfile: Dockerfile
+    container_name: junblog-backend
+    restart: always
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+      - ../blog_backend/configs/config.docker.yaml:/app/configs/config.yaml
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - junblog-network
+    environment:
+      - TZ=Asia/Shanghai
+
+  # Vue 前端 + Nginx
+  frontend:
+    build:
+      context: ../bolg_forntend
+      dockerfile: Dockerfile
+    container_name: junblog-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - junblog-network
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  junblog-network:
+    driver: bridge
