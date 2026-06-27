@@ -111,7 +111,7 @@ func (a *App) initDatabase() error {
 		//&entity.Article{},
 		//&entity.Tag{},
 		//&entity.Category{},
-		//&entity.Comment{},
+		&entity.Comment{},
 		&entity.Like{},
 	); err != nil {
 		logger.Warn("数据库迁移警告", zap.Error(err))
