@@ -30,10 +30,10 @@ pipeline {
         stage('Start Infrastructure') {
             steps {
                 echo '启动 MySQL 和 Redis...'
-                // 加载环境变量
+                // 从挂载的 .env 文件加载环境变量
                 script {
-                    env.MYSQL_ROOT_PASSWORD = sh(script: 'grep MYSQL_ROOT_PASSWORD deploy/.env | cut -d= -f2', returnStdout: true).trim()
-                    env.MYSQL_PASSWORD = sh(script: 'grep MYSQL_PASSWORD deploy/.env | grep -v ROOT | cut -d= -f2', returnStdout: true).trim()
+                    env.MYSQL_ROOT_PASSWORD = sh(script: 'grep MYSQL_ROOT_PASSWORD /var/jenkins_home/.env | cut -d= -f2', returnStdout: true).trim()
+                    env.MYSQL_PASSWORD = sh(script: 'grep MYSQL_PASSWORD /var/jenkins_home/.env | grep -v ROOT | cut -d= -f2', returnStdout: true).trim()
                 }
                 sh '''
                     # MySQL - 如果没运行就启动
