@@ -109,7 +109,7 @@ func (a *App) initDatabase() error {
 	if err := a.mysqlDB.AutoMigrate(
 		//&entity.User{},
 		//&entity.Article{},
-		//&entity.Tag{},
+		&entity.Tag{},
 		&entity.Category{},
 		&entity.Comment{},
 		&entity.Like{},
