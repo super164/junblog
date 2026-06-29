@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         SERVER_IP = '39.96.91.255'
+        GOPROXY = 'https://goproxy.cn,direct'
     }
 
     options {
@@ -21,7 +22,15 @@ pipeline {
         stage('Build Backend') {
             steps {
                 echo '编译后端...'
-                bat 'cd blog_backend && go build -o server.exe ./cmd/server'
+                bat '''
+                    cd blog_backend
+                    set GOPROXY=https://goproxy.cn,direct
+                    set CGO_ENABLED=0
+                    set GOOS=linux
+                    set GOARCH=amd64
+                    go build -o server.exe ./cmd/server
+                    dir server.exe
+                '''
             }
         }
 
@@ -34,24 +43,24 @@ pipeline {
                         transfers: [
                             sshTransfer(
                                 sourceFiles: 'blog_backend/server.exe',
-                                remoteDirectory: '/opt/junblog/blog_backend/',
+                                remoteDirectory: 'blog_backend/',
                                 flatten: true
                             ),
                             sshTransfer(
                                 sourceFiles: 'blog_backend/Dockerfile',
-                                remoteDirectory: '/opt/junblog/blog_backend/'
+                                remoteDirectory: 'blog_backend/'
                             ),
                             sshTransfer(
                                 sourceFiles: 'blog_backend/configs/**',
-                                remoteDirectory: '/opt/junblog/blog_backend/configs/'
+                                remoteDirectory: 'blog_backend/configs/'
                             ),
                             sshTransfer(
                                 sourceFiles: 'bolg_forntend/**',
-                                remoteDirectory: '/opt/junblog/bolg_forntend/'
+                                remoteDirectory: 'bolg_forntend/'
                             ),
                             sshTransfer(
                                 sourceFiles: 'deploy/docker-compose.yml',
-                                remoteDirectory: '/opt/junblog/deploy/'
+                                remoteDirectory: 'deploy/'
                             )
                         ]
                     )
