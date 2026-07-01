@@ -5,8 +5,8 @@ import (
 	"blog_backend/internal/model/dto/response"
 	"blog_backend/internal/model/entity"
 	"blog_backend/internal/repository"
-	bizerrors "blog_backend/pkg/errors"
 	"blog_backend/pkg/config"
+	bizerrors "blog_backend/pkg/errors"
 	"blog_backend/pkg/jwt"
 	"encoding/json"
 	"fmt"
@@ -42,17 +42,14 @@ func _newGitHubHTTPClient(timeout time.Duration) *http.Client {
 		proxyURL = os.Getenv("all_proxy")
 	}
 
-	// 如果没有环境变量，使用默认代理
-	if proxyURL == "" {
-		proxyURL = "http://127.0.0.1:7890"
+	transport := &http.Transport{}
+	if proxyURL != "" {
+		proxy, _ := url.Parse(proxyURL)
+		transport.Proxy = http.ProxyURL(proxy)
+		fmt.Printf("[GitHub OAuth] 使用代理: %s\n", proxyURL)
+	} else {
+		fmt.Println("[GitHub OAuth] 不使用代理，直连")
 	}
-
-	proxy, _ := url.Parse(proxyURL)
-	transport := &http.Transport{
-		Proxy: http.ProxyURL(proxy),
-	}
-
-	fmt.Printf("[GitHub OAuth] 使用代理: %s\n", proxyURL)
 	return &http.Client{
 		Timeout:   timeout,
 		Transport: transport,
