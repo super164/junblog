@@ -16,6 +16,7 @@ const menuItems = [
   { label: '标签管理', icon: '🏷️', to: '/admin/tags' },
   { label: '评论管理', icon: '💬', to: '/admin/comments' },
   { label: '用户管理', icon: '👥', to: '/admin/users' },
+  { label: '站点设置', icon: '⚙️', to: '/admin/settings' },
 ]
 
 function toggleSidebar() {

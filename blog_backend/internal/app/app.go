@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"blog_backend/internal/api"
+	"blog_backend/internal/model/entity"
 	"blog_backend/internal/repository"
 	"blog_backend/internal/service"
 	"blog_backend/pkg/config"
@@ -106,12 +107,13 @@ func (a *App) initDatabase() error {
 	// 自动迁移数据库表
 	logger.Info("开始数据库迁移...")
 	if err := a.mysqlDB.AutoMigrate(
-	//&entity.User{},
-	//&entity.Article{},
-	//&entity.Tag{},
-	//&entity.Category{},
-	//&entity.Comment{},
-	//&entity.Like{},
+		//&entity.User{},
+		//&entity.Article{},
+		//&entity.Tag{},
+		//&entity.Category{},
+		//&entity.Comment{},
+		//&entity.Like{},
+		&entity.SystemSetting{},
 	); err != nil {
 		logger.Warn("数据库迁移警告", zap.Error(err))
 	} else {
@@ -137,6 +139,7 @@ func (a *App) initDependencies() {
 	categoryRepo := repository.NewCategoryRepository(a.mysqlDB)
 	commentRepo := repository.NewCommentRepository(a.mysqlDB)
 	interactionRepo := repository.NewInteractionRepository(a.mysqlDB)
+	settingRepo := repository.NewSystemSettingRepository(a.mysqlDB)
 
 	// 创建 Service
 	userSvc := service.NewUserService(userRepo)
@@ -147,6 +150,7 @@ func (a *App) initDependencies() {
 	commentSvc := service.NewCommentService(commentRepo, articleRepo, userRepo)
 	interactionSvc := service.NewInteractionService(interactionRepo, articleRepo)
 	statsSvc := service.NewStatsService()
+	settingSvc := service.NewSystemSettingService(settingRepo)
 
 	// 创建 Router
 	a.router = api.NewRouter(
@@ -158,6 +162,7 @@ func (a *App) initDependencies() {
 		commentSvc,
 		interactionSvc,
 		statsSvc,
+		settingSvc,
 	)
 }
 

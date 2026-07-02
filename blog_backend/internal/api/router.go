@@ -1,15 +1,16 @@
 package api
 
 import (
-	"blog_backend/internal/api/v1/auth"
-	"blog_backend/internal/api/v1/user"
+	"blog_backend/internal/api/v1/admin"
 	"blog_backend/internal/api/v1/article"
+	"blog_backend/internal/api/v1/auth"
 	"blog_backend/internal/api/v1/category"
-	"blog_backend/internal/api/v1/tag"
 	"blog_backend/internal/api/v1/comment"
 	"blog_backend/internal/api/v1/interaction"
+	"blog_backend/internal/api/v1/setting"
 	"blog_backend/internal/api/v1/stats"
-	"blog_backend/internal/api/v1/admin"
+	"blog_backend/internal/api/v1/tag"
+	"blog_backend/internal/api/v1/user"
 	"blog_backend/internal/middleware"
 	"blog_backend/internal/service"
 
@@ -27,6 +28,7 @@ type Router struct {
 	interactionCtrl *interaction.Controller
 	statsCtrl       *stats.Controller
 	adminCtrl       *admin.Controller
+	settingCtrl     *setting.Controller
 }
 
 // NewRouter 创建路由
@@ -39,6 +41,7 @@ func NewRouter(
 	commentService service.CommentService,
 	interactionService service.InteractionService,
 	statsService service.StatsService,
+	settingService service.SystemSettingService,
 ) *Router {
 	return &Router{
 		userCtrl:        user.NewController(userService),
@@ -50,6 +53,7 @@ func NewRouter(
 		interactionCtrl: interaction.NewController(interactionService),
 		statsCtrl:       stats.NewController(statsService),
 		adminCtrl:       admin.NewController(),
+		settingCtrl:     setting.NewController(settingService),
 	}
 }
 
@@ -82,6 +86,7 @@ func (r *Router) Setup(engine *gin.Engine) {
 		r.categoryCtrl.RegisterPublicRoutes(v1)
 		r.tagCtrl.RegisterPublicRoutes(v1)
 		r.commentCtrl.RegisterPublicRoutes(v1)
+		r.settingCtrl.RegisterPublicRoutes(v1)
 
 		// 需要认证的路由
 		authorized := v1.Group("/")
@@ -105,6 +110,7 @@ func (r *Router) Setup(engine *gin.Engine) {
 			r.tagCtrl.RegisterAdminRoutes(admin)
 			r.commentCtrl.RegisterAdminRoutes(admin)
 			r.userCtrl.RegisterAdminRoutes(admin)
+			r.settingCtrl.RegisterAdminRoutes(admin)
 		}
 	}
 }

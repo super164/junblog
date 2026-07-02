@@ -11,6 +11,7 @@ const CategoryManagePage = () => import('./views/CategoryManagePage.vue')
 const TagManagePage = () => import('./views/TagManagePage.vue')
 const CommentManagePage = () => import('./views/CommentManagePage.vue')
 const UserManagePage = () => import('./views/UserManagePage.vue')
+const SiteSettingPage = () => import('./views/SiteSettingPage.vue')
 
 export const adminRoutes = [
   {
@@ -28,6 +29,7 @@ export const adminRoutes = [
       { path: 'tags', component: TagManagePage, meta: { title: 'JunBlog | 标签管理' } },
       { path: 'comments', component: CommentManagePage, meta: { title: 'JunBlog | 评论管理' } },
       { path: 'users', component: UserManagePage, meta: { title: 'JunBlog | 用户管理' } },
+      { path: 'settings', component: SiteSettingPage, meta: { title: 'JunBlog | 站点设置' } },
     ],
   },
 ]
